@@ -14,7 +14,7 @@ app.post('/login', (req, res) => {
 
   jwt.sign(
     usuario,
-    SEGREDO 
+    SEGREDO,
     { expiresIn: '1h' },
     (erro, token) => {
       if (erro) {
@@ -34,21 +34,23 @@ function verificarToken(req, res, next) {
     return res.status(401).json({ erro: 'Acesso negado. Token não fornecido.' });
   }
 
-try {
-     const decoded = jwt.verify(token, SEGREDO);
-     req.usuario = decoded;
-     next();
-   } catch (erro) {
-     res.status(400).json({ erro: 'Toke
-n inválido ou expirado' });
-   }
- }
- app.get('/dados-protegidos', verificarToken, (req, res) => {
-   res.json({
-     mensagem: 'Você acessou uma rota protegida!',
-     usuario: req.usuario
-   });
- });
- app.listen(3000, () => {
-   console.log('Servidor rodando na porta 3000');
- });
+  try {
+    const decoded = jwt.verify(token, SEGREDO);
+    req.usuario = decoded;
+    next();
+  } catch (erro) {
+    res.status(400).json({ erro: 'Token inválido ou expirado' });
+  }
+}
+
+app.get('/dados-protegidos', verificarToken, (req, res) => {
+  res.json({
+    mensagem: 'Você acessou uma rota protegida!',
+    usuario: req.usuario
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+
