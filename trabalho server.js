@@ -28,7 +28,7 @@ app.post('/login', (req, res) => {
 
 function verificarToken(req, res, next) {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Formato: Bearer TOKEN
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ erro: 'Acesso negado. Token não fornecido.' });
