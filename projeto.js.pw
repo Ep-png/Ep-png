@@ -1,3 +1,4 @@
+
 const express = require("express");
 const jsonfile = require("jsonfile");
 const app = express();
@@ -33,7 +34,6 @@ app.post("/especialidades", async (req, res) => {
 
     db.especialidades.push(nova);
     await escrever(especialidadesDB, db);
-
     res.status(201).json({ mensagem: "Especialidade cadastrada!", especialidade: nova });
 });
 
@@ -45,7 +45,6 @@ app.get("/especialidades", async (req, res) => {
 app.post("/medicos", async (req, res) => {
     const medicos = await ler(medicosDB);
     const especialidades = await ler(especialidadesDB);
-
     const { nome, crm, idEspecialidade } = req.body;
 
     const existe = especialidades.especialidades.find(e => e.idEspecialidade === idEspecialidade);
@@ -61,7 +60,6 @@ app.post("/medicos", async (req, res) => {
 
     medicos.medicos.push(novo);
     await escrever(medicosDB, medicos);
-
     res.status(201).json({ mensagem: "Médico cadastrado!", medico: novo });
 });
 
@@ -84,7 +82,6 @@ app.post("/pacientes", async (req, res) => {
 
     db.pacientes.push(novo);
     await escrever(pacientesDB, db);
-
     res.status(201).json({ mensagem: "Paciente cadastrado!", paciente: novo });
 });
 
@@ -101,7 +98,7 @@ app.post("/consultas", async (req, res) => {
     const { idPaciente, idMedico, dataHora, observacoes } = req.body;
 
     const paciente = pacientes.pacientes.find(p => p.idPaciente === idPaciente);
-    if (!Paciente)
+    if (!paciente)
         return res.status(400).json({ erro: "Paciente não existe!" });
 
     const medico = medicos.medicos.find(m => m.idMedico === idMedico);
@@ -119,7 +116,6 @@ app.post("/consultas", async (req, res) => {
 
     consultas.consultas.push(nova);
     await escrever(consultasDB, consultas);
-
     res.status(201).json({ mensagem: "Consulta marcada!", consulta: nova });
 });
 
